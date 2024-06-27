@@ -13,24 +13,30 @@ class Service
      * Генерация данных постов для фронта
      *
      * @param  LengthAwarePaginator $posts
-     * @return LengthAwarePaginator
+     * @return array
      */
-    public function execute(LengthAwarePaginator $posts): LengthAwarePaginator
+    public function execute(LengthAwarePaginator $posts): array
     {
+        $data = [];
+
         foreach ($posts as $post) {
-            $data        = $this->getPostFromDummyJson($post->dummy_post_id);
-            $post->title = $data['title'];
-            $post->body  = $data['body'];
+            $response = $this->getPostFromDummyJson($post->dummy_post_id);
+            $data[]   = [
+                'id'    => $post->id,
+                'title' => $response['title'],
+                'body'  => mb_substr($response['body'], 0, 128),
+                'username' => $post->author->name
+            ];
         }
 
-        return $posts;
+        return $data;
     }
 
     /**
      * Возвращает данные из сайта dummyjson по айди
      *
-     * @param  int  $id
-     * @return void
+     * @param  int   $id
+     * @return array
      */
     private function getPostFromDummyJson(int $id): array
     {
@@ -41,8 +47,8 @@ class Service
             return $response->json();
         } else {
             return [
-                'title' => null,
-                'body'  => null
+                'title' => '',
+                'body'  => ''
             ];
         }
     }
