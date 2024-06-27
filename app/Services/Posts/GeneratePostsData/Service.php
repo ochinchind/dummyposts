@@ -2,7 +2,6 @@
 
 namespace App\Services\Posts\GeneratePostsData;
 
-use App\Http\Middleware\StoreVisitorIp;
 use App\Models\Posts\Posts;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Http;
