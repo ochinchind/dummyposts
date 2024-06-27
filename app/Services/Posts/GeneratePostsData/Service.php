@@ -22,9 +22,9 @@ class Service
         foreach ($posts as $post) {
             $response = $this->getPostFromDummyJson($post->dummy_post_id);
             $data[]   = [
-                'id'    => $post->id,
-                'title' => $response['title'],
-                'body'  => mb_substr($response['body'], 0, 128),
+                'id'       => $post->id,
+                'title'    => $response['title'],
+                'body'     => mb_substr($response['body'], 0, 128),
                 'username' => $post->author->name
             ];
         }
